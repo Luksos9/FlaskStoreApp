@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -8,7 +10,7 @@ from resources.item import Item, ItemList
 from resources.store import Store, StoreList # bez tego importu nie utworzy sie nam baza danych bo z resourcow importujemy Store resource, ktory importuje StoreModel ktory tworzy Store w bazie danych
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' # mozna zmienic na postgre itp
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db') # mozna zmienic na postgre itp, zmienione na postgre teraz
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # SQLAlchemy modyfication tracker is on but we are turning off the flask one
 app.secret_key = 'jose'
 api = Api(app)
